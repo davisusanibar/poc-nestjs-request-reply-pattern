@@ -26,14 +26,46 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_LOG_DIRS: "/tmp/v1/kraft-combined-logs"
-  app:
+  app1:
     build:
       context: ..
       dockerfile: DockerfileNestBFF
-    ports:
-      - 3000:3000
     environment:
-      - NODE_ENV=development
+      - PORT=3000
+    ports:
+      - "3000:3000"
     volumes:
       - ../:/app
       - /app/node_modules
+  app2:
+    build:
+      context: ..
+      dockerfile: DockerfileNestBFF
+    environment:
+      - PORT=3000
+    ports:
+      - "3001:3000"
+    volumes:
+      - ../:/app
+      - /app/node_modules
+  app3:
+    build:
+      context: ..
+      dockerfile: DockerfileNestBFF
+    environment:
+      - PORT=3000
+    ports:
+      - "3002:3000"
+    volumes:
+      - ../:/app
+      - /app/node_modules
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8088:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app1
+      - app2
+      - app3
