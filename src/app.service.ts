@@ -8,7 +8,7 @@ export class AppService implements OnModuleInit {
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: ['localhost:9092'],
+        brokers: ['broker:9092'],
       },
       consumer: {
         groupId: 'consumer-group-flow-01',

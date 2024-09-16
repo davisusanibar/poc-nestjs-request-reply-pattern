@@ -37,28 +37,34 @@ services:
     volumes:
       - ../:/app
       - /app/node_modules
+    depends_on:
+      - broker
   app2:
     build:
       context: ..
       dockerfile: DockerfileNestBFF
     environment:
-      - PORT=3000
+      - PORT=3001
     ports:
-      - "3001:3000"
+      - "3001:3001"
     volumes:
       - ../:/app
       - /app/node_modules
+    depends_on:
+      - broker
   app3:
     build:
       context: ..
       dockerfile: DockerfileNestBFF
     environment:
-      - PORT=3000
+      - PORT=3002
     ports:
-      - "3002:3000"
+      - "3002:3002"
     volumes:
       - ../:/app
       - /app/node_modules
+    depends_on:
+      - broker
   nginx:
     image: nginx:latest
     ports:

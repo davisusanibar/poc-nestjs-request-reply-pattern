@@ -17,8 +17,19 @@ $ npm install
 $ cd ./infra
 $ docker compose up -d
 $ docker exec -it kafkatest /bin/bash
-$ /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic topicopedidos
-$ /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic topicopedidos.reply
+$ /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:9092 --create --topic topicopedidos
+$ /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:9092 --create --topic topicopedidos.reply
+
+$ 
+
+$ 
+
+/opt/kafka/bin/kafka-topics.sh --alter --zookeeper broker:2181 --topic topicopedidos --partitions 10
+/opt/kafka/bin/kafka-topics.sh --alter --zookeeper broker:2181 --topic topicopedidos.reply --partitions 10
+
+
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:9092 --alter --topic topicopedidos --partitions 10
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:9092 --alter --topic topicopedidos.reply --partitions 10
 
 # iniciar ambiente
 $ npm run start
@@ -175,3 +186,39 @@ Kafka (Produce v7 Request)
 
 ```
 
+## Testing 
+
+```shell
+$ docker build -t mi-aplicacion-nestjs:latest .
+$ docker run -it -p 3000:3000 mi-aplicacion-nestjs:latest
+```
+
+## Pasos a evaluar/Considerar:
+
+El utilitario que usamos para crear el cliente de kafka es un componente que no tiene mucha adopcion en el ecosistema de JS Kafka Client
+
+```json
+
+  "name": "kafkajs",
+  "version": "2.2.4",
+  "description": "A modern Apache Kafka client for node.js",
+  "author": "Tulio Ornelas <ornelas.tulio@gmail.com>",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "license": "MIT",
+  "keywords": [
+    "kafka",
+    "sasl",
+    "scram"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tulios/kafkajs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tulios/kafkajs/issues"
+  },
+```
